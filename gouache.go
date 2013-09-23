@@ -12,16 +12,28 @@ type Game struct {
 	grid     []Grid
 }
 
-func New(numVals, maxMoves, cols, rows int) *Game {
+func New(numVals, maxMoves, rows, cols int) *Game {
+	if numVals < 2 {
+		numVals = 2
+	}
+	if maxMoves < 1 {
+		maxMoves = 1
+	}
+	if cols < 2 {
+		cols = 2
+	}
+	if rows < 2 {
+		rows = 2
+	}
 	g := &Game{
 		numVals:  numVals,
 		maxMoves: maxMoves,
 		grid:     make([]Grid, maxMoves+1),
 	}
-	for r := range g.grid {
-		g.grid[r] = make(Grid, rows)
-		for c := range g.grid[r] {
-			g.grid[r][c] = make([]int, rows)
+	for i := range g.grid {
+		g.grid[i] = make(Grid, rows)
+		for r := range g.grid[i] {
+			g.grid[i][r] = make([]int, cols)
 		}
 	}
 	g.Reset()

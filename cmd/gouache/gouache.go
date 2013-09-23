@@ -5,6 +5,7 @@ import (
 	"github.com/wsxiaoys/terminal"
 	"github.com/wsxiaoys/terminal/color"
 
+	"flag"
 	"fmt"
 	"math/rand"
 	"os"
@@ -13,20 +14,32 @@ import (
 	"time"
 )
 
-const (
-	maxMoves = 25
-	rows     = 14
-	cols     = 14
+var (
+	colorStr = [...]string{
+		"@{!rR}", "@{!gG}", "@{!bB}", "@{!cC}", "@{!mM}", "@{!yY}", "@{!kK}", "@{!wW}",
+	}
+	maxMoves int
+	rows     int
+	cols     int
+	colors   int
+	game     *gouache.Game
 )
 
-var (
-	colors = []string{"@{!rR}", "@{!gG}", "@{!bB}", "@{!cC}", "@{!mM}", "@{!yY}"}
-	game    *gouache.Game
-)
+func init() {
+	flag.IntVar(&maxMoves, "moves", 25, "maximum number of moves")
+	flag.IntVar(&rows, "rows", 14, "number of rows")
+	flag.IntVar(&cols, "cols", 14, "number of columns")
+	flag.IntVar(&colors, "colors", 6, "number of colors, max " + strconv.Itoa(len(colorStr)))
+}
 
 func main() {
+	flag.Parse()
+	if colors > len(colorStr) {
+		colors = len(colorStr)
+	}
+
 	rand.Seed(time.Now().UnixNano())
-	game = gouache.New(len(colors), maxMoves, rows, cols)
+	game = gouache.New(colors, maxMoves, rows, cols)
 	play()
 }
 
@@ -71,7 +84,7 @@ func printGrid() {
 	for r := range g {
 		for c := range g[r] {
 			val := g[r][c] + 1
-			color.Print(colors[g[r][c]], fmt.Sprintf("%d ", val))
+			color.Print(colorStr[g[r][c]], fmt.Sprintf("%d ", val))
 		}
 		fmt.Println()
 	}
