@@ -50,7 +50,7 @@ func play() {
 		cur := game.CurMove()
 		terminal.Stdout.Clear()
 		terminal.Stdout.Move(0, 0)
-		fmt.Println("(#)paint (n)ew (q)uit (u)ndo (r)edo\n")
+		fmt.Println("(#)paint (n)ew (q)uit (u)ndo (r)edo (0)rewind\n")
 		printGrid()
 		switch {
 		case game.Filled():
@@ -69,6 +69,8 @@ func play() {
 			game.Undo()
 		case "r":
 			game.Redo()
+		case "0":
+			game.Rewind()
 		case "q":
 			os.Exit(0)
 		default:

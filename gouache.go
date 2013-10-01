@@ -129,3 +129,7 @@ func (g *Game) Redo() bool {
 	g.curMove++
 	return true
 }
+
+func (g *Game) Rewind() {
+	g.curMove = 0
+}
