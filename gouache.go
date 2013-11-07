@@ -77,7 +77,7 @@ func (g *Game) Fill(val int) bool {
 	if g.curMove >= g.maxMoves {
 		return false
 	}
-	if val < 0 || val > g.NumVals() {
+	if val < 0 || val >= g.NumVals() {
 		return false
 	}
 	cur := g.grid[g.curMove]
